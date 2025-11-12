@@ -19,7 +19,7 @@
         "php": "^8.3.0",
         "pestphp/pest": "^4.0.0",
         "pestphp/pest-plugin": "^4.0.0",
-        "qase/php-commons": "^2.1.0"
+        "qase/php-commons": "^2.1.1"
     },
     "autoload": {
         "psr-4": {
