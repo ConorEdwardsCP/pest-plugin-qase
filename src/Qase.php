@@ -25,9 +25,10 @@ class Qase
      * Example:
      * Qase::comment("My comment");
      */
-    public function comment(string $message): void
+    public function comment(string $message): self
     {
         $this->reporter->addComment($message);
+        return $this;
     }
 
     /* Add attachment to test case
@@ -39,9 +40,10 @@ class Qase
      * Qase::attach(["/my_path/file.json", "/my_path/file2.json"]);
      * Qase::attach((object) ['title' => 'attachment.txt', 'content' => 'Some string', 'mime' => 'text/plain']);
      */
-    public function attach(mixed $input): void
+    public function attach(mixed $input): self
     {
         $this->reporter->addAttachment($input);
+        return $this;
     }
 
     protected function getReporter(): QaseReporter
