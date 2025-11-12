@@ -3,10 +3,11 @@
 namespace Pest\Qase;
 
 
+use Pest\Qase\Traits\HasQaseMetadata;
 use RuntimeException;
 
 trait InteractsWithQase {
-    public function qase(): QaseMetadataBuilder
+    public function qase(): Qase
     {
         $reporter = QaseReporter::getInstanceWithoutInit();
 
@@ -14,6 +15,6 @@ trait InteractsWithQase {
             throw new RuntimeException('Qase reporter not initialized. Ensure QaseExtension is registered in phpunit.xml');
         }
 
-        return new QaseMetadataBuilder($reporter);
+        return new Qase($reporter);
     }
 }

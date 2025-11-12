@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Pest\Qase;
+namespace Pest\Qase\Traits;
+
+use Pest\Qase\QaseReporter;
 
 /**
  * Fluent builder for adding Qase metadata in Pest tests.
@@ -10,14 +12,9 @@ namespace Pest\Qase;
  * This class provides a chainable API for adding test metadata
  * that would typically be added via PHP attributes in PHPUnit tests.
  */
-class QaseMetadataBuilder
+trait HasQaseMetadata
 {
-    private QaseReporter $reporter;
-
-    public function __construct(QaseReporter $reporter)
-    {
-        $this->reporter = $reporter;
-    }
+    protected abstract function getReporter(): QaseReporter;
 
     /**
      * Link test to Qase test case ID(s).
@@ -28,7 +25,7 @@ class QaseMetadataBuilder
     public function caseId(int ...$ids): self
     {
         foreach ($ids as $id) {
-            $this->reporter->addMetadataToCurrentTest('id', $id);
+            $this->getReporter()->addMetadataToCurrentTest('id', $id);
         }
 
         return $this;
@@ -43,7 +40,7 @@ class QaseMetadataBuilder
     public function suite(string ...$suites): self
     {
         foreach ($suites as $suite) {
-            $this->reporter->addMetadataToCurrentTest('suite', $suite);
+            $this->getReporter()->addMetadataToCurrentTest('suite', $suite);
         }
         return $this;
     }
@@ -57,7 +54,7 @@ class QaseMetadataBuilder
      */
     public function field(string $name, string $value): self
     {
-        $this->reporter->addMetadataToCurrentTest('field', [$name => $value]);
+        $this->getReporter()->addMetadataToCurrentTest('field', [$name => $value]);
         return $this;
     }
 
@@ -70,7 +67,7 @@ class QaseMetadataBuilder
      */
     public function parameter(string $name, string $value): self
     {
-        $this->reporter->addMetadataToCurrentTest('parameter', [$name => $value]);
+        $this->getReporter()->addMetadataToCurrentTest('parameter', [$name => $value]);
         return $this;
     }
 
@@ -83,7 +80,7 @@ class QaseMetadataBuilder
      */
     public function title(string $title): self
     {
-        $this->reporter->updateTitle($title);
+        $this->getReporter()->updateTitle($title);
         return $this;
     }
 }

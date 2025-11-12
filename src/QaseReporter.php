@@ -58,7 +58,7 @@ class QaseReporter implements QaseReporterInterface
         $this->currentKey = $key;
 
         $testResult = new Result();
-        $testResult->title = $test->methodName();
+        $testResult->title = $this->getCleanTestTitle($test);
         $testResult->signature = $this->createSignature($test);
         $testResult->execution->setThread($this->getThread());
 
@@ -140,6 +140,23 @@ class QaseReporter implements QaseReporterInterface
     private function getThread(): string
     {
         return $_ENV['TEST_TOKEN'] ?? "default"; // @phpstan-ignore-line
+    }
+
+    /**
+     * Get clean test title without "it " prefix and dataset suffix
+     *
+     * @param TestMethod $test
+     * @return string Clean test title
+     */
+    private function getCleanTestTitle(TestMethod $test): string
+    {
+        $prettifiedName = $test->testDox()->prettifiedMethodName();
+
+        // Remove "it " prefix if present
+        $title = preg_replace('/^it\s+/', '', $prettifiedName);
+
+        // Remove " with data set ..." suffix if present
+        return preg_replace('/\s+with data set\s+.+$/', '', $title);
     }
 
     public function addComment(string $message): void

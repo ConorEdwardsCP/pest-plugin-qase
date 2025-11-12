@@ -1,11 +1,19 @@
 <?php
 
-use function Pest\PluginName\example;
+use Pest\Qase\Qase;
+use function Pest\Qase\qase;
 
-it('may be accessed on the `$this` closure', function () {
-    $this->example('foo');
+it('has qase', function () {
+    expect(function_exists('Pest\Qase\qase'))->toBeTrue();
 });
 
-it('may be accessed as function', function () {
-    example('foo');
+it('can use the qase instance', function () {
+    expect(qase()->caseId(1))->toBeInstanceOf(Qase::class);
+});
+
+it('uses qase suite', function () {
+    qase()
+        ->suite('Test Suite. Delete Me.');
+
+    expect(true)->toBeTrue();
 });
