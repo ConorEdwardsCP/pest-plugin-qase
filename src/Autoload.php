@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pest\PluginName;
+namespace Pest\Qase;
 
 use Pest\Plugin;
 use PHPUnit\Framework\TestCase;
 
-Plugin::uses(Example::class);
+Plugin::uses(InteractsWithQase::class);
 
-/**
- * @return TestCase
- */
-function example(string $argument)
+function qase(): TestCase
 {
-    return test()->example(...func_get_args()); // @phpstan-ignore-line
+    return test()->qase(...func_get_args()); // @phpstan-ignore-line
 }

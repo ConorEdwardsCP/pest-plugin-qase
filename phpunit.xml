@@ -21,6 +21,9 @@
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
 >
+    <extensions>
+        <bootstrap class="Pest\Qase\QaseExtension"/>
+    </extensions>
     <testsuites>
         <testsuite name="default">
             <directory suffix=".php">./tests</directory>
