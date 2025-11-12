@@ -15,8 +15,7 @@ final class TestConsideredRiskySubscriber implements ConsideredRiskySubscriber
 
     public function __construct(
         QaseReporterInterface $reporter
-    )
-    {
+    ) {
         $this->reporter = $reporter;
     }
 
@@ -24,7 +23,7 @@ final class TestConsideredRiskySubscriber implements ConsideredRiskySubscriber
     {
         $test = $event->test();
 
-        if (!($test instanceof TestMethod)) {
+        if (! ($test instanceof TestMethod)) {
             return;
         }
 

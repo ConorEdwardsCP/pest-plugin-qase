@@ -1,6 +1,7 @@
 <?php
 
 use Pest\Qase\Qase;
+
 use function Pest\Qase\qase;
 
 it('has qase', function () {

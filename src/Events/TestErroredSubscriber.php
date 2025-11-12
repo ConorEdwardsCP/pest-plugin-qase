@@ -16,8 +16,7 @@ final class TestErroredSubscriber implements ErroredSubscriber
 
     public function __construct(
         QaseReporterInterface $reporter
-    )
-    {
+    ) {
         $this->reporter = $reporter;
     }
 
@@ -25,7 +24,7 @@ final class TestErroredSubscriber implements ErroredSubscriber
     {
         $test = $event->test();
 
-        if (!($test instanceof TestMethod)) {
+        if (! ($test instanceof TestMethod)) {
             return;
         }
 

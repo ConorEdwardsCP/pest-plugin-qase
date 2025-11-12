@@ -16,7 +16,7 @@ class StatusDetector
     /**
      * Determine if the throwable represents an assertion failure
      *
-     * @param PHPUnitThrowable $throwable The exception/error that caused test failure
+     * @param  PHPUnitThrowable  $throwable  The exception/error that caused test failure
      * @return bool True if it's an assertion failure, false otherwise
      */
     public static function isAssertionFailure(PHPUnitThrowable $throwable): bool
@@ -32,7 +32,7 @@ class StatusDetector
     /**
      * Get the appropriate status for a test failure
      *
-     * @param PHPUnitThrowable $throwable The exception/error that caused test failure
+     * @param  PHPUnitThrowable  $throwable  The exception/error that caused test failure
      * @return string 'failed' for assertion failures, 'invalid' for other errors
      */
     public static function getStatusForFailure(PHPUnitThrowable $throwable): string

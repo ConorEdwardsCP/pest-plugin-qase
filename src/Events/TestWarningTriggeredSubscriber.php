@@ -15,8 +15,7 @@ final class TestWarningTriggeredSubscriber implements WarningTriggeredSubscriber
 
     public function __construct(
         QaseReporterInterface $reporter
-    )
-    {
+    ) {
         $this->reporter = $reporter;
     }
 
@@ -24,7 +23,7 @@ final class TestWarningTriggeredSubscriber implements WarningTriggeredSubscriber
     {
         $test = $event->test();
 
-        if (!($test instanceof TestMethod)) {
+        if (! ($test instanceof TestMethod)) {
             return;
         }
 

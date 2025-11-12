@@ -28,6 +28,7 @@ class Qase
     public function comment(string $message): self
     {
         $this->reporter->addComment($message);
+
         return $this;
     }
 
@@ -43,6 +44,7 @@ class Qase
     public function attach(mixed $input): self
     {
         $this->reporter->addAttachment($input);
+
         return $this;
     }
 

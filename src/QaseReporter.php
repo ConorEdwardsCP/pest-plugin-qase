@@ -21,7 +21,9 @@ class QaseReporter implements QaseReporterInterface
      * @var array<Result>
      */
     private array $testResults = [];
+
     private ReporterInterface $reporter;
+
     private ?string $currentKey = null;
 
     private function __construct(ReporterInterface $reporter)
@@ -31,9 +33,10 @@ class QaseReporter implements QaseReporterInterface
 
     public static function getInstance(ReporterInterface $reporter): QaseReporter
     {
-        if (!isset(self::$instance)) {
+        if (! isset(self::$instance)) {
             self::$instance = new QaseReporter($reporter);
         }
+
         return self::$instance;
     }
 
@@ -57,7 +60,7 @@ class QaseReporter implements QaseReporterInterface
         $key = $this->getTestKey($test);
         $this->currentKey = $key;
 
-        $testResult = new Result();
+        $testResult = new Result;
         $testResult->title = $this->getCleanTestTitle($test) ?? $test->methodName();
         $testResult->signature = $this->createSignature($test);
         $testResult->execution->setThread($this->getThread());
@@ -69,7 +72,7 @@ class QaseReporter implements QaseReporterInterface
     {
         $key = $this->getTestKey($test);
 
-        if (!isset($this->testResults[$key])) {
+        if (! isset($this->testResults[$key])) {
             $this->startTest($test);
             $this->testResults[$key]->execution->setStatus($status);
             $this->testResults[$key]->execution->finish();
@@ -91,7 +94,7 @@ class QaseReporter implements QaseReporterInterface
     private function handleMessage(string $key, ?string $message): void
     {
         if ($message) {
-            $this->testResults[$key]->message = $this->testResults[$key]->message . "\n" . $message . "\n";
+            $this->testResults[$key]->message = $this->testResults[$key]->message."\n".$message."\n";
         }
     }
 
@@ -105,25 +108,25 @@ class QaseReporter implements QaseReporterInterface
 
     private function getTestKey(TestMethod $test): string
     {
-        $baseKey = $test->className() . '::' . $test->methodName() . ':' . $test->line();
+        $baseKey = $test->className().'::'.$test->methodName().':'.$test->line();
 
         // Include data provider data in key to make each iteration unique
         $dataProviderParams = $this->extractDataProviderParams($test);
-        if (!empty($dataProviderParams)) {
+        if (! empty($dataProviderParams)) {
             $paramsHash = $this->generateParamsHash($dataProviderParams);
-            return $baseKey . ':' . $paramsHash;
+
+            return $baseKey.':'.$paramsHash;
         }
 
         return $baseKey;
     }
 
-    private function createSignature( // @phpstan-ignore-line
+    private function createSignature(// @phpstan-ignore-line
         TestMethod $test,
         ?array $ids = null,
         ?array $suites = null,
         ?array $params = null
-    ): string
-    {
+    ): string {
         $finalSuites = [];
         if ($suites) {
             $finalSuites = $suites;
@@ -139,13 +142,12 @@ class QaseReporter implements QaseReporterInterface
 
     private function getThread(): string
     {
-        return $_ENV['TEST_TOKEN'] ?? "default"; // @phpstan-ignore-line
+        return $_ENV['TEST_TOKEN'] ?? 'default'; // @phpstan-ignore-line
     }
 
     /**
      * Get clean test title without "it " prefix and dataset suffix
      *
-     * @param TestMethod $test
      * @return string Clean test title
      */
     private function getCleanTestTitle(TestMethod $test): ?string
@@ -161,16 +163,16 @@ class QaseReporter implements QaseReporterInterface
 
     public function addComment(string $message): void
     {
-        if (!$this->currentKey) {
+        if (! $this->currentKey) {
             return;
         }
 
-        $this->testResults[$this->currentKey]->message = $this->testResults[$this->currentKey]->message . $message . "\n";
+        $this->testResults[$this->currentKey]->message = $this->testResults[$this->currentKey]->message.$message."\n";
     }
 
     public function updateTitle(string $title): void
     {
-        if (!$this->currentKey) {
+        if (! $this->currentKey) {
             return;
         }
 
@@ -179,12 +181,13 @@ class QaseReporter implements QaseReporterInterface
 
     public function addAttachment(mixed $input): void
     {
-        if (!$this->currentKey) {
+        if (! $this->currentKey) {
             return;
         }
 
         if (is_string($input)) {
             $this->testResults[$this->currentKey]->attachments[] = Attachment::createFileAttachment($input);
+
             return;
         }
 
@@ -199,7 +202,7 @@ class QaseReporter implements QaseReporterInterface
         }
 
         if (is_object($input)) {
-            $data = (array)$input;
+            $data = (array) $input;
             $this->testResults[$this->currentKey]->attachments[] = Attachment::createContentAttachment(
                 $data['title'] ?? 'attachment', // @phpstan-ignore-line
                 $data['content'] ?? null, // @phpstan-ignore-line
@@ -212,17 +215,16 @@ class QaseReporter implements QaseReporterInterface
      * Add metadata to the current test at runtime.
      * Used by the Pest helper API via QaseMetadataBuilder.
      *
-     * @param string $type Type of metadata: 'id', 'suite', 'field', 'parameter'
-     * @param mixed $value The value to add
-     * @return void
+     * @param  string  $type  Type of metadata: 'id', 'suite', 'field', 'parameter'
+     * @param  mixed  $value  The value to add
      */
     public function addMetadataToCurrentTest(string $type, mixed $value): void
     {
-        if (!$this->currentKey) {
+        if (! $this->currentKey) {
             return;
         }
 
-        match($type) {
+        match ($type) {
             'id' => $this->testResults[$this->currentKey]->testOpsIds[] = $value,
             'suite' => $this->testResults[$this->currentKey]->relations->addSuite($value), // @phpstan-ignore-line
             'field' => $this->testResults[$this->currentKey]->fields = array_merge(
@@ -240,7 +242,6 @@ class QaseReporter implements QaseReporterInterface
     /**
      * Extract parameters from PHPUnit data provider
      *
-     * @param TestMethod $test
      * @return array<string, string> Array of parameter name => value pairs
      */
     private function extractDataProviderParams(TestMethod $test): array
@@ -261,7 +262,6 @@ class QaseReporter implements QaseReporterInterface
      * Get original data provider data by calling the data provider method directly
      * This preserves associative array structure
      *
-     * @param TestMethod $test
      * @return array|null Original data provider data or null if not available
      */
     private function getOriginalDataProviderData(TestMethod $test): ?array // @phpstan-ignore-line
@@ -273,7 +273,7 @@ class QaseReporter implements QaseReporterInterface
             }
 
             $allDataSets = $this->invokeDataProviderMethod($test->className(), $dataProviderMethodName);
-            if (!is_array($allDataSets)) {
+            if (! is_array($allDataSets)) {
                 return null;
             }
 
@@ -301,7 +301,7 @@ class QaseReporter implements QaseReporterInterface
             $attributeName = $attribute->getName();
             if (str_contains($attributeName, 'DataProvider')) {
                 $args = $attribute->getArguments();
-                if (!empty($args) && is_string($args[0])) {
+                if (! empty($args) && is_string($args[0])) {
                     return $args[0];
                 }
             }
@@ -320,16 +320,17 @@ class QaseReporter implements QaseReporterInterface
     private function invokeDataProviderMethod(string $className, string $methodName): ?array // @phpstan-ignore-line
     {
         $classReflection = new ReflectionClass($className);
-        if (!$classReflection->hasMethod($methodName)) {
+        if (! $classReflection->hasMethod($methodName)) {
             return null;
         }
 
         $method = $classReflection->getMethod($methodName);
-        if (!$method->isStatic() || !$method->isPublic()) {
+        if (! $method->isStatic() || ! $method->isPublic()) {
             return null;
         }
 
         $result = $method->invoke(null);
+
         return is_array($result) ? $result : null;
     }
 
@@ -340,7 +341,7 @@ class QaseReporter implements QaseReporterInterface
      */
     private function getCurrentDataSetName(TestMethod $test): int|string|null
     {
-        if (!method_exists($test, 'testData')) { // @phpstan-ignore-line
+        if (! method_exists($test, 'testData')) { // @phpstan-ignore-line
             return null;
         }
 
@@ -356,14 +357,12 @@ class QaseReporter implements QaseReporterInterface
 
     /**
      * Get DataFromDataProvider object from TestDataCollection
-     *
-     *
      */
     private function getDataProviderDataFromCollection(object $testDataObj): mixed
     {
         $reflection = new ReflectionClass($testDataObj);
 
-        if (!$reflection->hasProperty('data')) {
+        if (! $reflection->hasProperty('data')) {
             return null;
         }
 
@@ -371,7 +370,7 @@ class QaseReporter implements QaseReporterInterface
         $dataProperty->setAccessible(true);
         $dataArray = $dataProperty->getValue($testDataObj);
 
-        return (is_array($dataArray) && !empty($dataArray)) ? $dataArray[0] : null;
+        return (is_array($dataArray) && ! empty($dataArray)) ? $dataArray[0] : null;
     }
 
     /**
@@ -383,7 +382,7 @@ class QaseReporter implements QaseReporterInterface
     {
         $reflection = new ReflectionClass($dataProviderData);
 
-        if (!$reflection->hasMethod('dataSetName')) {
+        if (! $reflection->hasMethod('dataSetName')) {
             return null;
         }
 
@@ -404,6 +403,7 @@ class QaseReporter implements QaseReporterInterface
 
         if (is_int($dataSetName)) {
             $allDataSetsValues = array_values($allDataSets);
+
             return $allDataSetsValues[$dataSetName] ?? null; // @phpstan-ignore-line
         }
 
@@ -417,7 +417,7 @@ class QaseReporter implements QaseReporterInterface
      * - Associative array: ['version' => 'v1'] -> ['version' => 'v1']
      * - Parameter pairs: ['version', 'v1'] -> ['version' => 'v1']
      *
-     * @param array $data Data from data provider
+     * @param  array  $data  Data from data provider
      * @return array<string, string> Normalized parameters
      */
     private function normalizeDataProviderData(array $data): array // @phpstan-ignore-line
@@ -429,12 +429,13 @@ class QaseReporter implements QaseReporterInterface
             for ($i = 0; $i < count($data); $i += 2) {
                 $params[$this->convertValueToString($data[$i])] = $this->convertValueToString($data[$i + 1]);
             }
+
             return $params;
         }
 
         // Handle as regular array (indexed or associative)
         foreach ($data as $key => $value) {
-            $paramName = is_numeric($key) ? 'param' . $key : $key;
+            $paramName = is_numeric($key) ? 'param'.$key : $key;
             $params[$paramName] = $this->convertValueToString($value);
         }
 
@@ -454,11 +455,11 @@ class QaseReporter implements QaseReporterInterface
             $nameCandidate = $data[$i];
 
             // Name must be a non-empty string that looks like a parameter name
-            if (!is_string($nameCandidate)
+            if (! is_string($nameCandidate)
                 || empty($nameCandidate)
                 || is_numeric($nameCandidate)
                 || strlen($nameCandidate) < 3
-                || !preg_match('/^[a-zA-Z_]\w*$/', $nameCandidate)
+                || ! preg_match('/^[a-zA-Z_]\w*$/', $nameCandidate)
                 || $nameCandidate === ($data[$i + 1] ?? null)) {
                 return false;
             }
@@ -481,14 +482,11 @@ class QaseReporter implements QaseReporterInterface
 
     /**
      * Convert any value to string for parameter representation
-     *
-     * @param mixed $value
-     * @return string
      */
     private function convertValueToString(mixed $value): string
     {
         if (is_scalar($value)) {
-            return (string)$value;
+            return (string) $value;
         }
 
         if (is_array($value)) {
@@ -497,8 +495,9 @@ class QaseReporter implements QaseReporterInterface
 
         if (is_object($value)) {
             if (method_exists($value, '__toString')) {
-                return (string)$value;
+                return (string) $value;
             }
+
             return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); // @phpstan-ignore-line
         }
 
@@ -508,13 +507,13 @@ class QaseReporter implements QaseReporterInterface
     /**
      * Generate a hash from parameters for use in test key
      *
-     * @param array<string, string> $params
-     * @return string
+     * @param  array<string, string>  $params
      */
     private function generateParamsHash(array $params): string
     {
         ksort($params);
         $paramString = http_build_query($params);
+
         return md5($paramString);
     }
 }

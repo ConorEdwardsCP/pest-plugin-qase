@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Pest\Qase\Events;
 
-
 use Pest\Qase\QaseReporterInterface;
 use PHPUnit\Event\TestRunner\Finished;
 use PHPUnit\Event\TestRunner\FinishedSubscriber;

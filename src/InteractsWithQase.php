@@ -2,16 +2,15 @@
 
 namespace Pest\Qase;
 
-
-use Pest\Qase\Traits\HasQaseMetadata;
 use RuntimeException;
 
-trait InteractsWithQase { // @phpstan-ignore-line
+trait InteractsWithQase
+{ // @phpstan-ignore-line
     public function qase(): Qase
     {
         $reporter = QaseReporter::getInstanceWithoutInit();
 
-        if(!isset($reporter)) {
+        if (! isset($reporter)) {
             throw new RuntimeException('Qase reporter not initialized. Ensure QaseExtension is registered in phpunit.xml');
         }
 

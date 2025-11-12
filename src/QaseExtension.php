@@ -14,7 +14,7 @@ final class QaseExtension implements Extension
 {
     public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
     {
-        $coreReporter = ReporterFactory::create("pestphp/pest", "pestphp/pest-plugin-qase");
+        $coreReporter = ReporterFactory::create('pestphp/pest', 'pestphp/pest-plugin-qase');
 
         $reporter = QaseReporter::getInstance($coreReporter);
 
