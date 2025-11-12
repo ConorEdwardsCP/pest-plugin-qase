@@ -11,13 +11,7 @@ use PHPUnit\Event\Test\PassedSubscriber;
 
 final class TestPassedSubscriber implements PassedSubscriber
 {
-    private QaseReporterInterface $reporter;
-
-    public function __construct(
-        QaseReporterInterface $reporter
-    ) {
-        $this->reporter = $reporter;
-    }
+    public function __construct(private readonly QaseReporterInterface $reporter) {}
 
     public function notify(Passed $event): void
     {

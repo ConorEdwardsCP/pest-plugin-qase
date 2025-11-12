@@ -11,13 +11,7 @@ use PHPUnit\Event\Test\ConsideredRiskySubscriber;
 
 final class TestConsideredRiskySubscriber implements ConsideredRiskySubscriber
 {
-    private QaseReporterInterface $reporter;
-
-    public function __construct(
-        QaseReporterInterface $reporter
-    ) {
-        $this->reporter = $reporter;
-    }
+    public function __construct(private readonly QaseReporterInterface $reporter) {}
 
     public function notify(ConsideredRisky $event): void
     {

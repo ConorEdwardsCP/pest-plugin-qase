@@ -12,13 +12,7 @@ use PHPUnit\Event\Test\MarkedIncompleteSubscriber;
 
 final class TestMarkedIncompleteSubscriber implements MarkedIncompleteSubscriber
 {
-    private QaseReporterInterface $reporter;
-
-    public function __construct(
-        QaseReporterInterface $reporter
-    ) {
-        $this->reporter = $reporter;
-    }
+    public function __construct(private readonly QaseReporterInterface $reporter) {}
 
     public function notify(MarkedIncomplete $event): void
     {

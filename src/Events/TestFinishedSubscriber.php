@@ -11,13 +11,7 @@ use PHPUnit\Event\Test\FinishedSubscriber;
 
 final class TestFinishedSubscriber implements FinishedSubscriber
 {
-    private QaseReporterInterface $reporter;
-
-    public function __construct(
-        QaseReporterInterface $reporter
-    ) {
-        $this->reporter = $reporter;
-    }
+    public function __construct(private readonly QaseReporterInterface $reporter) {}
 
     public function notify(Finished $event): void
     {

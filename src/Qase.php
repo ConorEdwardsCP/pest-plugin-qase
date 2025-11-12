@@ -10,12 +10,7 @@ class Qase
 {
     use HasQaseMetadata;
 
-    private QaseReporter $reporter;
-
-    public function __construct(QaseReporter $reporter)
-    {
-        $this->reporter = $reporter;
-    }
+    public function __construct(private QaseReporter $reporter) {}
 
     /*
      * Add comment to test case

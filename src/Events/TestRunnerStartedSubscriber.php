@@ -10,12 +10,7 @@ use PHPUnit\Event\TestRunner\StartedSubscriber;
 
 final class TestRunnerStartedSubscriber implements StartedSubscriber
 {
-    private QaseReporterInterface $reporter;
-
-    public function __construct(QaseReporterInterface $reporter)
-    {
-        $this->reporter = $reporter;
-    }
+    public function __construct(private readonly QaseReporterInterface $reporter) {}
 
     public function notify(Started $event): void
     {

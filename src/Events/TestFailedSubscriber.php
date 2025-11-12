@@ -12,13 +12,7 @@ use PHPUnit\Event\Test\FailedSubscriber;
 
 final class TestFailedSubscriber implements FailedSubscriber
 {
-    private QaseReporterInterface $reporter;
-
-    public function __construct(
-        QaseReporterInterface $reporter
-    ) {
-        $this->reporter = $reporter;
-    }
+    public function __construct(private readonly QaseReporterInterface $reporter) {}
 
     public function notify(Failed $event): void
     {

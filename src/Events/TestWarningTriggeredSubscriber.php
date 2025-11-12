@@ -11,13 +11,7 @@ use PHPUnit\Event\Test\WarningTriggeredSubscriber;
 
 final class TestWarningTriggeredSubscriber implements WarningTriggeredSubscriber
 {
-    private QaseReporterInterface $reporter;
-
-    public function __construct(
-        QaseReporterInterface $reporter
-    ) {
-        $this->reporter = $reporter;
-    }
+    public function __construct(private readonly QaseReporterInterface $reporter) {}
 
     public function notify(WarningTriggered $event): void
     {

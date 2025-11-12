@@ -22,14 +22,9 @@ class QaseReporter implements QaseReporterInterface
      */
     private array $testResults = [];
 
-    private ReporterInterface $reporter;
-
     private ?string $currentKey = null;
 
-    private function __construct(ReporterInterface $reporter)
-    {
-        $this->reporter = $reporter;
-    }
+    private function __construct(private readonly ReporterInterface $reporter) {}
 
     public static function getInstance(ReporterInterface $reporter): QaseReporter
     {
@@ -112,7 +107,7 @@ class QaseReporter implements QaseReporterInterface
 
         // Include data provider data in key to make each iteration unique
         $dataProviderParams = $this->extractDataProviderParams($test);
-        if (! empty($dataProviderParams)) {
+        if ($dataProviderParams !== []) {
             $paramsHash = $this->generateParamsHash($dataProviderParams);
 
             return $baseKey.':'.$paramsHash;
@@ -158,7 +153,7 @@ class QaseReporter implements QaseReporterInterface
         $title = preg_replace('/^it\s+/', '', $prettifiedName);
 
         // Remove " with data set ..." suffix if present
-        return preg_replace('/\s+with data set\s+.+$/', '', $title); // @phpstan-ignore-line
+        return preg_replace('/\s+with data set\s+.+$/', '', (string) $title);
     }
 
     public function addComment(string $message): void
@@ -253,7 +248,7 @@ class QaseReporter implements QaseReporterInterface
             }
 
             return [];
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return [];
         }
     }
@@ -283,7 +278,7 @@ class QaseReporter implements QaseReporterInterface
             }
 
             return $this->findDataSet($allDataSets, $dataSetName);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return null;
         }
     }
@@ -367,10 +362,9 @@ class QaseReporter implements QaseReporterInterface
         }
 
         $dataProperty = $reflection->getProperty('data');
-        $dataProperty->setAccessible(true);
         $dataArray = $dataProperty->getValue($testDataObj);
 
-        return (is_array($dataArray) && ! empty($dataArray)) ? $dataArray[0] : null;
+        return (is_array($dataArray) && $dataArray !== []) ? $dataArray[0] : null;
     }
 
     /**
@@ -387,7 +381,6 @@ class QaseReporter implements QaseReporterInterface
         }
 
         $method = $reflection->getMethod('dataSetName');
-        $method->setAccessible(true);
 
         return $method->invoke($dataProviderData);
     }
@@ -426,7 +419,8 @@ class QaseReporter implements QaseReporterInterface
 
         // Check if indexed array with parameter pairs [name, value, ...]
         if ($this->isIndexedArray($data) && $this->looksLikeParameterPairs($data)) {
-            for ($i = 0; $i < count($data); $i += 2) {
+            $counter = count($data);
+            for ($i = 0; $i < $counter; $i += 2) {
                 $params[$this->convertValueToString($data[$i])] = $this->convertValueToString($data[$i + 1]);
             }
 
@@ -450,13 +444,14 @@ class QaseReporter implements QaseReporterInterface
         if (count($data) < 2 || count($data) % 2 !== 0) {
             return false;
         }
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i += 2) {
+        for ($i = 0; $i < $counter; $i += 2) {
             $nameCandidate = $data[$i];
 
             // Name must be a non-empty string that looks like a parameter name
             if (! is_string($nameCandidate)
-                || empty($nameCandidate)
+                || ($nameCandidate === '' || $nameCandidate === '0')
                 || is_numeric($nameCandidate)
                 || strlen($nameCandidate) < 3
                 || ! preg_match('/^[a-zA-Z_]\w*$/', $nameCandidate)
@@ -473,7 +468,7 @@ class QaseReporter implements QaseReporterInterface
      */
     private function isIndexedArray(array $array): bool // @phpstan-ignore-line
     {
-        if (empty($array)) {
+        if ($array === []) {
             return false;
         }
 
