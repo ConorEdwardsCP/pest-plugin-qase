@@ -13,9 +13,13 @@ The Pest Qase Plugin is a powerful integration that automatically reports your P
 ### Why use it?
 
 ✨ **Automatic Reporting** — Test results flow directly to Qase TMS after each run
+
 🔗 **Easy Linking** — Connect tests to Qase test cases with a simple `caseId()` call
+
 📊 **Rich Metadata** — Add custom fields, parameters, comments, and attachments
+
 🎯 **Smart Organization** — Group tests into suites for better management
+
 ⚡ **Parallel Execution** — Fully supports concurrent test runs
 
 ## Requirements
