@@ -58,7 +58,7 @@ class QaseReporter implements QaseReporterInterface
         $this->currentKey = $key;
 
         $testResult = new Result();
-        $testResult->title = $this->getCleanTestTitle($test);
+        $testResult->title = $this->getCleanTestTitle($test) ?? $test->methodName();
         $testResult->signature = $this->createSignature($test);
         $testResult->execution->setThread($this->getThread());
 
@@ -148,7 +148,7 @@ class QaseReporter implements QaseReporterInterface
      * @param TestMethod $test
      * @return string Clean test title
      */
-    private function getCleanTestTitle(TestMethod $test): string
+    private function getCleanTestTitle(TestMethod $test): ?string
     {
         $prettifiedName = $test->testDox()->prettifiedMethodName();
 
@@ -156,7 +156,7 @@ class QaseReporter implements QaseReporterInterface
         $title = preg_replace('/^it\s+/', '', $prettifiedName);
 
         // Remove " with data set ..." suffix if present
-        return preg_replace('/\s+with data set\s+.+$/', '', $title);
+        return preg_replace('/\s+with data set\s+.+$/', '', $title); // @phpstan-ignore-line
     }
 
     public function addComment(string $message): void
