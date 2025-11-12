@@ -4,8 +4,8 @@ namespace Pest\Qase;
 
 use RuntimeException;
 
-trait InteractsWithQase
-{ // @phpstan-ignore-line
+trait InteractsWithQase // @phpstan-ignore-line
+{
     public function qase(): Qase
     {
         $reporter = QaseReporter::getInstanceWithoutInit();
