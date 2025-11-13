@@ -4,37 +4,29 @@ on: ['push', 'pull_request']
 
 jobs:
   static:
-    runs-on: ${{ matrix.os }}
+    name: Static Tests
+
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        php: ['8.3', '8.4']
         dependency-version: [prefer-lowest, prefer-stable]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
-
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php }}
-        tools: composer:v2
-        coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: composer:v2
+          coverage: none
 
-    - name: Setup Problem Matches
-      run: |
-        echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-        echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Install Dependencies
+        run: composer update --prefer-stable --no-interaction --no-progress --ansi
 
-    - name: Install Dependencies
-      run: composer update --${{ matrix.dependency-version }}  --no-interaction --no-progress --ansi
+      - name: Types
+        run: composer test:types
 
-    - name: Types
-      run: composer test:types
-
-    - name: Style
-      run: composer test:lint
+      - name: Style
+        run: composer test:lint
