@@ -24,7 +24,7 @@ The Pest Qase Plugin is a powerful integration that automatically reports your P
 
 ## Requirements
 
-- PHP 8.3 or higher
+- PHP 8.2 or higher
 - Pest 3.0 or 4.0
 - A [Qase](https://qase.io/) account with an API token
 
