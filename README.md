@@ -33,7 +33,7 @@ The Pest Qase Plugin is a powerful integration that automatically reports your P
 Install the plugin via Composer:
 
 ```bash
-composer require pestphp/pest-plugin-qase --dev
+composer require conoredwardscp/pest-plugin-qase --dev
 ```
 
 Then, register the extension in your `phpunit.xml`:
