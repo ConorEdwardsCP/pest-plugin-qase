@@ -1,5 +1,5 @@
 {
-    "name": "pestphp/pest-plugin-qase",
+    "name": "conoredwardscp/pest-plugin-qase",
     "description": "Qase TMS reporter plugin for Pest",
     "type": "library",
     "keywords": [
