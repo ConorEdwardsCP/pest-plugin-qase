@@ -15,11 +15,17 @@
         "reporter"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ConorEdwardsCP/qase-php-commons"
+        }
+    ],
     "require": {
         "php": "^8.2.0",
         "pestphp/pest": "^3.0|^4.0",
         "pestphp/pest-plugin": "^3.0|^4.0",
-        "qase/php-commons": "^2.1.1"
+        "qase/php-commons": "dev-fix/boolean-env-var-parsing"
     },
     "autoload": {
         "psr-4": {
