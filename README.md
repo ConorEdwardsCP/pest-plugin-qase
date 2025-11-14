@@ -2,9 +2,9 @@
 
 **Seamlessly integrate your Pest tests with Qase Test Management System**
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/pestphp/pest-plugin-qase)
-[![Total Downloads](https://img.shields.io/packagist/dt/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/pestphp/pest-plugin-qase)
-[![License](https://img.shields.io/packagist/l/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/pestphp/pest-plugin-qase)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/conoredwardscp/pest-plugin-qase)
+[![Total Downloads](https://img.shields.io/packagist/dt/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/conoredwardscp/pest-plugin-qase)
+[![License](https://img.shields.io/packagist/l/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/conoredwardscp/pest-plugin-qase)
 
 ## What is it?
 
