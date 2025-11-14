@@ -21,7 +21,7 @@ trait HasQaseMetadata
      *
      * @param  int  ...$ids  The Qase test case ID(s)
      */
-    public function caseId(int ...$ids): self
+    public function caseId(int ...$ids): static
     {
         foreach ($ids as $id) {
             $this->getReporter()->addMetadataToCurrentTest('id', $id);
@@ -35,7 +35,7 @@ trait HasQaseMetadata
      *
      * @param  string  ...$suites  One or more suite names
      */
-    public function suite(string ...$suites): self
+    public function suite(string ...$suites): static
     {
         foreach ($suites as $suite) {
             $this->getReporter()->addMetadataToCurrentTest('suite', $suite);
@@ -50,7 +50,7 @@ trait HasQaseMetadata
      * @param  string  $name  Field name (e.g., 'severity', 'description')
      * @param  string  $value  Field value
      */
-    public function field(string $name, string $value): self
+    public function field(string $name, string $value): static
     {
         $this->getReporter()->addMetadataToCurrentTest('field', [$name => $value]);
 
@@ -63,7 +63,7 @@ trait HasQaseMetadata
      * @param  string  $name  Parameter name
      * @param  string  $value  Parameter value
      */
-    public function parameter(string $name, string $value): self
+    public function parameter(string $name, string $value): static
     {
         $this->getReporter()->addMetadataToCurrentTest('parameter', [$name => $value]);
 
@@ -76,7 +76,7 @@ trait HasQaseMetadata
      *
      * @param  string  $title  Custom test title
      */
-    public function title(string $title): self
+    public function title(string $title): static
     {
         $this->getReporter()->updateTitle($title);
 

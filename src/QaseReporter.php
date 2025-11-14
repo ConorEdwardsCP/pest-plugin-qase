@@ -15,7 +15,7 @@ use ReflectionMethod;
 
 class QaseReporter implements QaseReporterInterface
 {
-    private static QaseReporter $instance;
+    private static ?QaseReporter $instance = null;
 
     /**
      * @var array<Result>
@@ -28,7 +28,7 @@ class QaseReporter implements QaseReporterInterface
 
     public static function getInstance(ReporterInterface $reporter): QaseReporter
     {
-        if (! isset(self::$instance)) {
+        if (self::$instance === null) {
             self::$instance = new QaseReporter($reporter);
         }
 
@@ -37,7 +37,7 @@ class QaseReporter implements QaseReporterInterface
 
     public static function getInstanceWithoutInit(): ?QaseReporter
     {
-        return self::$instance ?? null;
+        return self::$instance;
     }
 
     public function startTestRun(): void
