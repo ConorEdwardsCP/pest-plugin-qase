@@ -2,9 +2,9 @@
 
 **Seamlessly integrate your Pest tests with Qase Test Management System**
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/pestphp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/pestphp/pest-plugin-qase)
-[![Total Downloads](https://img.shields.io/packagist/dt/pestphp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/pestphp/pest-plugin-qase)
-[![License](https://img.shields.io/packagist/l/pestphp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/pestphp/pest-plugin-qase)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/conoredwardscp/pest-plugin-qase)
+[![Total Downloads](https://img.shields.io/packagist/dt/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/conoredwardscp/pest-plugin-qase)
+[![License](https://img.shields.io/packagist/l/conoredwardscp/pest-plugin-qase.svg?style=flat-square)](https://packagist.org/packages/conoredwardscp/pest-plugin-qase)
 
 ## What is it?
 
@@ -24,7 +24,7 @@ The Pest Qase Plugin is a powerful integration that automatically reports your P
 
 ## Requirements
 
-- PHP 8.3 or higher
+- PHP 8.2 or higher
 - Pest 3.0 or 4.0
 - A [Qase](https://qase.io/) account with an API token
 
@@ -33,7 +33,7 @@ The Pest Qase Plugin is a powerful integration that automatically reports your P
 Install the plugin via Composer:
 
 ```bash
-composer require pestphp/pest-plugin-qase --dev
+composer require conoredwardscp/pest-plugin-qase --dev
 ```
 
 Then, register the extension in your `phpunit.xml`:
